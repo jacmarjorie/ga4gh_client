@@ -1,2 +1,5 @@
 # ga4gh_galaxy_interface
-GA4GH requests through Galaxy
+Galaxy interface to perform GA4GH REST calls.
+
+Currently support for:
+* GASearchVariantsRequest

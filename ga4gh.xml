@@ -1,0 +1,50 @@
+<tool id="ga4gh" name="GA4GH">
+
+  <description>GA4GH SearchVariantRequest Generator</description>
+
+  <requirements>
+      <requirement type="package">requests</requirement>
+      <requirement type="package">json</requirement>
+  </requirements>
+
+  <command interpreter="python">ga4gh_comm.py 
+    $url 
+    $output 
+    --variantSetIds $variantSetIds 
+    --referenceName $referenceName 
+    --end $end 
+    #if $variantName
+      --variantName $variantName 
+    #end if
+    #if $callSetIds
+      --callSetIds $callSetIds 
+    #end if
+    #if $start
+      --start $start 
+    #end if
+    #if $pageSize
+      --pageSize $pageSize 
+    #end if
+    #if $pageToken
+      --pageToken $pageToken 
+    #end if
+  </command>
+
+  <inputs>
+    <param name="url" type="text" label="Query Path: "/>
+    <param name="variantSetIds" type="text" label="Variant Sets to Query: "/>
+    <param name="referenceName" type="text" label="Reference: "/>
+    <param name="end" type="integer" value="0" label="End Position: " />
+    <param name="variantName" type="text" label="Variant Name: " optional="true" />
+    <param name="callSetIds" type="text" label="Callset Ids: " optional="true" />
+    <param name="start" type="integer" value="0" label="Start Position" optional="true" />
+    <param name="pageSize" type="integer" value="0" label="Page Size" optional="true" />
+    <param name="pageToken" type="integer" value="0" label="Page Token" optional="true" />
+    <param name="output" type="text" label="Output: "/>
+  </inputs>
+
+  <outputs>
+    <data format="json" name="output" />
+  </outputs>
+
+</tool>
