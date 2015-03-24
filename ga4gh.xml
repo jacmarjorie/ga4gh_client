@@ -40,7 +40,6 @@
     <param name="start" type="integer" value="0" label="Start Position" optional="true" />
     <param name="pageSize" type="integer" value="0" label="Page Size" optional="true" />
     <param name="pageToken" type="integer" value="0" label="Page Token" optional="true" />
-    <param name="output" type="text" label="Output: "/>
   </inputs>
 
   <outputs>
