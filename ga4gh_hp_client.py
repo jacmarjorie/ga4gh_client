@@ -19,8 +19,16 @@ def GASearchVariantsRequest(query, url):
         request['referenceName'] = key
         oncotator_build(request, url)
 
+def GASearchVariantsRequest1(query, url):
+    request = {'start':1, 'end': None, 'referenceName': None, 'pageSize': None, 'pageToken': None, 'callSetIds': None, 'variantName': None, 'variantSetIds': variantSetIds[query.lower()]}
+    job_list = []
+    for key, val in chrs.iteritems():
+        request['end'] = val
+        request['referenceName'] = key
+        oncotator_build(request, url)
+
 def variants_search(this_request, this_url):
-    r = requests.post(this_url, data=json.dumps(this_request), headers={'content-type':'application/json'})
+    r = requests.post(this_url + "/variants/search", data=json.dumps(this_request), headers={'content-type':'application/json'})
     return json.loads(r.text)
 
 def vs_recurse(this_request, this_url):
