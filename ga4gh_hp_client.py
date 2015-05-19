@@ -45,8 +45,6 @@ def vs_recurse(this_request, this_url):
     return responses
 
 def oncotator_build(request, query_url):
-
-    outfile.write(header)
     build = 'hg19'
 
     for url in query_url:
@@ -89,7 +87,6 @@ def oncotator_build(request, query_url):
                             line.append(" ")
                         outfile.write('\t'.join(map(str, line)))
                         outfile.write('\n')
-    outfile.close()
 
 if __name__ == "__main__":
 
@@ -103,7 +100,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     url = args.urls
+    outfile.write(header)
 
     GASearchVariantsRequest(args.query, args.urls)
-
-
+    outfile.close()
