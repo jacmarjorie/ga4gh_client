@@ -11,7 +11,7 @@ chrs = {'1':249250621,'2':243199373,'3':198022430,'4':191154276,'5':180915260,'6
 header = 'tumor_name\tchr\tstart_position\tend_position\tbuild\tref_allele\talt_allele\ttumor_f\tt_ref_count\tt_alt_count\n'
 
 def GASearchVariantsRequest(query, url):
-    request = {'start':1, 'end': None, 'referenceName': None, 'pageSize': None, 'pageToken': None, 'callSetIds': None, 'variantName': None, 'variantSetIds': []}
+    request = {'start':1, 'end': None, 'referenceName': None, 'pageSize': 100000000000000000, 'pageToken': None, 'callSetIds': None, 'variantName': None, 'variantSetIds': []}
     job_list = []
     for key, val in chrs.iteritems():
         request['end'] = val
