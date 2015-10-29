@@ -8,7 +8,6 @@ chrs = {'1':249250621,'2':243199373,'3':198022430,'4':191154276,'5':180915260,'6
 
 # for testing
 #chrs = {'3': 198022430}
-outfile = open('oncotator_input.txt', 'w')
 header = 'tumor_name\tchr\tstart_position\tend_position\tbuild\tref_allele\talt_allele\ttumor_f\tt_ref_count\tt_alt_count\n'
 
 def GASearchVariantsRequest(query, url):
@@ -21,12 +20,13 @@ def GASearchVariantsRequest(query, url):
 
 def variants_search(this_request, this_url):
     print this_request
-    r = requests.post(this_url + "/variants/search", data=json.dumps(this_request), headers={'content-type':'application/json'})
-    print r
-    l = len(r.text)
-    if l < 500:
-	print r.text
-    return json.loads(r.text)
+    try:
+        r = requests.post(this_url + "/variants/search", data=json.dumps(this_request), headers={'content-type':'application/json'})
+        print r
+        return json.loads(r.text)
+    except:
+        print 'error in request, continuing with empty object', this_request, this_url
+        return {'variants':[], 'nextPageToken': None}
 
 def vs_recurse(this_request, this_url):
     r_json = variants_search(this_request, this_url)
@@ -82,8 +82,8 @@ def oncotator_build(request, query_url):
                             line.append(call['info']['AC'][0])
                         else:
                             line.append(" ")
-		outfile.write('\t'.join(map(str, line)))
-                outfile.write('\n')
+		    outfile.write('\t'.join(map(str, line)))
+            outfile.write('\n')
 
 if __name__ == "__main__":
 
@@ -91,13 +91,15 @@ if __name__ == "__main__":
     # python ga4gh_hp_client.py -u http://<host1>:<port_on_host1>/variants/search http://<host2>:<port_on_host2> http://<host3>:<port_on_host3>/variants/search -q liver
     # http://192.168.100.102:8090 http://192.168.100.103:8090
     parser = argparse.ArgumentParser(description='Variant DB GA4GH Communicator')
-    parser.add_argument('-u', "--urls", dest="urls", nargs = "+", type=str, required=True, default=None, help="Path to databases")
-    parser.add_argument('-q', '--query', dest="query", nargs='?', default=None,
-        help='Query by cancer type.')
+    parser.add_argument('-u', '--urls', dest='urls', nargs = "+", type=str, required=True, default=None, help="Path to databases")
+    parser.add_argument('-o', '--output', dest='output', type=str, required=True, default=None, help='Path to output file.')
+    parser.add_argument('-q', '--query', dest="query", nargs='?', default=None, help='Generic Query Term.')
 
     args = parser.parse_args()
 
     url = args.urls
+
+    outfile = open(args.output, 'w')
     outfile.write(header)
 
     GASearchVariantsRequest(args.query, args.urls)
