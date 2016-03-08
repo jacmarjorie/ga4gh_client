@@ -45,10 +45,7 @@ def oncotator_build(response, outfile):
 				for allele in call['genotype']:
 					if allele != '0':
 						line = []
-						if 'callSetId' != None:
-								line.append(call['callSetId'])
-						else:
-								line.append("None")
+						line.append(call['callSetName'])
 						line.append(contig)
 						line.append(start_position)
 						line.append(end_position)
